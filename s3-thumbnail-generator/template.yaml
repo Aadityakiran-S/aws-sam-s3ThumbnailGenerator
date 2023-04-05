@@ -5,6 +5,9 @@ Description: >
   Sample SAM Template for s3-thumbnail-generator
 
 Globals:
+  Api:
+    BinaryMediaTypes:
+      - "*/*"
   Function:
     Timeout: 30
     Environment:
@@ -36,9 +39,6 @@ Resources:
           Properties:
             Path: /uploadImage
             Method: POST
-            BinaryMediaTypes:
-              - "image/jpeg"
-              - "image/png"
 
   # GenerateThumbnailFunction:
   #   Type: AWS::Serverless::Function
