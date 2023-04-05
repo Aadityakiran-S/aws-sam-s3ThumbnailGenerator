@@ -10,7 +10,7 @@
     "aws-multipart-parser": "^0.2.1",
     "aws-sdk": "^2.1349.0",
     "axios": ">=0.21.1",
-    "sharp": "^0.32.0"
+    "dotenv": "^16.0.3"
   },
   "scripts": {
     "test": "mocha tests/unit/"

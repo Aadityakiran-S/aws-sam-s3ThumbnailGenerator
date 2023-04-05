@@ -1,9 +1,13 @@
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3();
 const { parse } = require('aws-multipart-parser');
+require('dotenv').config();
 
 const BUCKET_NAME = process.env.BUCKET_NAME;
-const { processImageToThumbnail } = require('./helpers/thumbnail-processing-helper.js');
+
+// const { processImageToThumbnail } = require('./helpers/thumbnail-processing-helper.js');
+
+// TODO: Smallcase in API endpoint name
 
 exports.uploadImageAndProcessThumbnail = async (event, context) => {
     const { imageBinary, imageKey } = parse(event, true);
@@ -15,15 +19,18 @@ exports.uploadImageAndProcessThumbnail = async (event, context) => {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(formData)
+        body: `BucketName: ${BUCKET_NAME}`
     };
 
+    // return response;
+
     try {
-        let thumbnailImage = await processImageToThumbnail(imageBinary);
+        // let thumbnailImage = await processImageToThumbnail(imageBinary);
+        let thumbnailImage = imageBinary;
 
         let promises = [];
-        promises.push(uploadFileToS3(imageKey, imageBinary));
-        promises.push(uploadFileToS3(thumbnailKey, thumbnailImage));
+        promises.push(uploadFileToS3(imageKey, imageBinary.content.data));
+        promises.push(uploadFileToS3(thumbnailKey, thumbnailImage.content.data));
 
         await Promise.all(promises); //Uploading both thumbnail and original image
 
@@ -37,6 +44,8 @@ exports.uploadImageAndProcessThumbnail = async (event, context) => {
     }
 }
 
+// #TOASK: What exactly happnes when we are running sam locally? How can we acess stuff like S3 and all locally?
+
 //#region Private functions
 function uploadFileToS3(filename, fileBinary) {
     const params = {
@@ -45,7 +54,6 @@ function uploadFileToS3(filename, fileBinary) {
         Body: fileBinary,
         ContentType: 'image/jpeg'
     };
-
     return s3.putObject(params).promise();
 }
 //#endregion
