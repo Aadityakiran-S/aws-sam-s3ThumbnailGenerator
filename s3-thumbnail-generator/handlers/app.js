@@ -5,7 +5,7 @@ require('dotenv').config();
 
 const BUCKET_NAME = process.env.BUCKET_NAME;
 
-// const { processImageToThumbnail } = require('./helpers/thumbnail-processing-helper.js');
+const { processImageToThumbnail } = require('./helpers/thumbnail-processing-helper.js');
 
 // TODO: Smallcase in API endpoint name
 
@@ -25,14 +25,20 @@ exports.uploadImageAndProcessThumbnail = async (event, context) => {
     // return response;
 
     try {
-        // let thumbnailImage = await processImageToThumbnail(imageBinary);
-        let thumbnailImage = imageBinary;
+        // let thumbnailImage = await processImageToThumbnail(imageBinary.content.data);
 
+        console.log("Hello");
+
+        //Uploading original image and thumbnail
         let promises = [];
         promises.push(uploadFileToS3(imageKey, imageBinary.content.data));
-        promises.push(uploadFileToS3(thumbnailKey, thumbnailImage.content.data));
+        promises.push(uploadFileToS3(thumbnailKey, thumbnailImage));
+        await Promise.all(promises);
 
-        await Promise.all(promises); //Uploading both thumbnail and original image
+        // uploadFileToS3_Sync(imageKey, imageBinary.content.data);
+        // uploadFileToS3_Sync(thumbnailKey, thumbnailImage);
+
+        console.log("Hello1");
 
         response.body = `Successfully uploaded ${imageKey} and corresponding thumbnail`;
         return response;
@@ -55,5 +61,15 @@ function uploadFileToS3(filename, fileBinary) {
         ContentType: 'image/jpeg'
     };
     return s3.putObject(params).promise();
+}
+
+function uploadFileToS3_Sync(filename, fileBinary) {
+    const params = {
+        Bucket: BUCKET_NAME,
+        Key: filename,
+        Body: fileBinary,
+        ContentType: 'image/jpeg'
+    };
+    s3.putObject(params);
 }
 //#endregion

@@ -27,7 +27,7 @@ Resources:
     Properties:
       CodeUri: handlers/
       Handler: app.uploadImageAndProcessThumbnail
-      Runtime: nodejs18.x
+      Runtime: nodejs16.x
       Architectures:
         - x86_64
       Policies:
