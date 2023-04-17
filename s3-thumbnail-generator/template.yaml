@@ -9,7 +9,7 @@ Globals:
     BinaryMediaTypes:
       - "*/*"
   Function:
-    Timeout: 30
+    Timeout: 3000
     Environment:
       Variables:
         THUMBNAIL_SIZE: 10

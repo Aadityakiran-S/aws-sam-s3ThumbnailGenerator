@@ -7,10 +7,11 @@
   "author": "SAM CLI",
   "license": "MIT",
   "dependencies": {
-    "aws-multipart-parser": "^0.2.1",
     "aws-sdk": "^2.1349.0",
     "axios": ">=0.21.1",
     "dotenv": "^16.0.3",
+    "formidable": "^2.1.1",
+    "formidable-serverless": "^1.1.1",
     "sharp": "^0.32.0"
   },
   "scripts": {
