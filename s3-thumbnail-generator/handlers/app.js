@@ -25,15 +25,18 @@ exports.uploadImageAndProcessThumbnail = async (event, context) => {
     // return response;
 
     try {
-        // let thumbnailImage = await processImageToThumbnail(imageBinary.content.data);
+        let thumbnailImage = await processImageToThumbnail(imageBinary.content.data);
 
         console.log("Hello");
 
         //Uploading original image and thumbnail
-        let promises = [];
-        promises.push(uploadFileToS3(imageKey, imageBinary.content.data));
-        promises.push(uploadFileToS3(thumbnailKey, thumbnailImage));
-        await Promise.all(promises);
+        // let promises = [];
+        // promises.push(uploadFileToS3(imageKey, imageBinary.content.data));
+        // promises.push(uploadFileToS3(thumbnailKey, thumbnailImage));
+        // await Promise.all(promises);
+
+        await uploadFileToS3(imageKey, imageBinary.content.data);
+        await uploadFileToS3(thumbnailKey, thumbnailImage);
 
         // uploadFileToS3_Sync(imageKey, imageBinary.content.data);
         // uploadFileToS3_Sync(thumbnailKey, thumbnailImage);
