@@ -40,39 +40,7 @@ Resources:
             Path: /uploadImage
             Method: POST
 
-  # GenerateThumbnailFunction:
-  #   Type: AWS::Serverless::Function
-  #   Properties:
-  #     CodeUri: handlers/
-  #     Handler: app.generateThumbnail
-  #     Runtime: nodejs18.x
-  #     Architectures:
-  #       - x86_64
-  #     Policies: # Policy to allow the function to upload to the same S3 bucket
-  #       - Version: "2012-10-17"
-  #         Statement:
-  #           - Effect: Allow
-  #             Action: "s3:*"
-  #             Resource: "*"
-  #     Events:
-  #       S3ObjectCreatedEvent:
-  #         Type: S3
-  #         Properties:
-  #           Bucket: !Ref S3ThumbnailGeneratorBucket
-  #           Events:
-  #             - "s3:ObjectCreated:*"
-
 Outputs:
-  # GenerateThumbnailFunctionApi:
-  #   Description: "API Gateway endpoint URL for Prod stage for GenerateThumbnailFunction function"
-  #   Value: !Sub "https://${AWS::StackName}.execute-api.${AWS::Region}.${AWS::AccountId}.amazonaws.com/Prod/generateThumbnail/"
-  # GenerateThumbnailFunction:
-  #   Description: "GenerateThumbnailFunction Lambda Function ARN"
-  #   Value: !GetAtt GenerateThumbnailFunction.Arn
-  # GenerateThumbnailFunctionIamRole:
-  #   Description: "Implicit IAM Role created for GenerateThumbnailFunction function"
-  #   Value: !GetAtt GenerateThumbnailFunctionRole.Arn
-
   UploadImageAndProcessThumbnailFunctionApi:
     Description: "API Gateway endpoint URL for Prod stage for UploadImageAndProcessThumbnailFunction function"
     Value: !Sub "https://${AWS::StackName}.execute-api.${AWS::Region}.${AWS::AccountId}.amazonaws.com/Prod/uploadImageAndProcessThumbnail/"
